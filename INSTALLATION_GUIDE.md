@@ -29,7 +29,7 @@ cd WorkFlow
 The `install_n8n.ps1` script handles everything automatically:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File install_n8n.ps1
+powershell -ExecutionPolicy Bypass -File .\install_n8n.ps1
 ```
 
 This installs:
@@ -46,22 +46,22 @@ This installs:
 
 #### **Workflows Only (skip Python setup):**
 ```powershell
-powershell -ExecutionPolicy Bypass -File install_n8n.ps1 -WorkflowsOnly
+powershell -ExecutionPolicy Bypass -File .\install_n8n.ps1 -WorkflowsOnly
 ```
 
 #### **Force Reinstall (delete and recreate everything):**
 ```powershell
-powershell -ExecutionPolicy Bypass -File install_n8n.ps1 -Force
+powershell -ExecutionPolicy Bypass -File .\install_n8n.ps1 -Force
 ```
 
 #### **Dry Run (preview without making changes):**
 ```powershell
-powershell -ExecutionPolicy Bypass -File install_n8n.ps1 -DryRun
+powershell -ExecutionPolicy Bypass -File .\install_n8n.ps1 -DryRun
 ```
 
 #### **Custom Installation Path:**
 ```powershell
-powershell -ExecutionPolicy Bypass -File install_n8n.ps1 -InstallPath "C:\MyPath"
+powershell -ExecutionPolicy Bypass -File .\install_n8n.ps1 -InstallPath "C:\MyPath"
 ```
 
 ---
