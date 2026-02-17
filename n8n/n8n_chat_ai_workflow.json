@@ -28,8 +28,8 @@
             "typeVersion":  1,
             "__comment":  "======== node for checking chrome chat status ==============",
             "parameters":  {
-                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
-                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_check_chrome_chat.ps1\""
+                               "workingDirectory":  "L:\\\\git\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"L:\\\\git\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_check_chrome_chat.ps1\""
                            },
             "works":  "executes a powershell script to check chrome chat status and returns boolean to n8n",
             "position":  [
@@ -76,8 +76,8 @@
             "typeVersion":  1,
             "__comment":  "======== node for starting chrome chat ==============",
             "parameters":  {
-                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
-                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_start_chrome_chat_simple.ps1\""
+                               "workingDirectory":  "L:\\\\git\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"L:\\\\git\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_start_chrome_chat_simple.ps1\""
                            },
             "works":  "executes a powershell script to start chrome for chat",
             "position":  [
@@ -124,8 +124,8 @@
             "typeVersion":  1,
             "__comment":  "======== node for running chat scraper ==============",
             "parameters":  {
-                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
-                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_chat_scraper.ps1\""
+                               "workingDirectory":  "L:\\\\git\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"L:\\\\git\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_chat_scraper.ps1\""
                            },
             "works":  "executes a powershell script to run chat scraper",
             "position":  [
@@ -140,8 +140,8 @@
             "typeVersion":  1,
             "__comment":  "======== node for parsing chat messages ==============",
             "parameters":  {
-                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
-                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_chat_parser.ps1\""
+                               "workingDirectory":  "L:\\\\git\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"L:\\\\git\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_chat_parser.ps1\""
                            },
             "works":  "executes a powershell script to parse chat messages from HTML",
             "position":  [
@@ -150,25 +150,9 @@
                          ]
         },
         {
-            "id":  "7hafcafb-chat-cleanup",
-            "name":  "Cleanup Chat Database",
-            "type":  "n8n-nodes-base.executeCommand",
-            "typeVersion":  1,
-            "__comment":  "======== node for cleaning up duplicate chat sessions ==============",
             "parameters":  {
-                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
-                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_cleanup_chat_database.ps1\""
-                           },
-            "works":  "executes a powershell script to cleanup duplicate chat sessions from database",
-            "position":  [
-                             1240,
-                             300
-                         ]
-        },
-        {
-            "parameters":  {
-                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
-                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_detect_phase_standalone.ps1\""
+                               "workingDirectory":  "L:\\\\git\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"L:\\\\git\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_detect_phase_standalone.ps1\""
                            },
             "id":  "detect-phase-bert",
             "type":  "n8n-nodes-base.executeCommand",
@@ -193,8 +177,8 @@
         },
         {
             "parameters":  {
-                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
-                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_generate_response.ps1\" -Mode both"
+                               "workingDirectory":  "L:\\\\git\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"L:\\\\git\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_generate_response.ps1\" -Mode both"
                            },
             "id":  "generate-response",
             "current_mode":  "both",
@@ -221,8 +205,8 @@
             "typeVersion":  1,
             "__comment":  "======== node for generating chat dashboard ==============",
             "parameters":  {
-                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
-                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_generate_and_open_chat_dashboard.ps1\""
+                               "workingDirectory":  "L:\\\\git\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"L:\\\\git\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_generate_and_open_chat_dashboard.ps1\""
                            },
             "works":  "creates interactive HTML dashboard with chat and AI responses and opens in browser",
             "position":  [
@@ -239,8 +223,7 @@
         "Wait for Chrome Chat Startup": { "main": [[ { "node": "Wait for Chat Navigation", "type": "main", "index": 0 } ]] },
         "Wait for Chat Navigation": { "main": [[ { "node": "Run Chat Scraper", "type": "main", "index": 0 } ]] },
         "Run Chat Scraper": { "main": [[ { "node": "Parse Chat Messages", "type": "main", "index": 0 } ]] },
-        "Parse Chat Messages": { "main": [[ { "node": "Cleanup Chat Database", "type": "main", "index": 0 } ]] },
-        "Cleanup Chat Database": { "main": [[ { "node": "Detect Phase (BERT AI)", "type": "main", "index": 0 } ]] },
+        "Parse Chat Messages": { "main": [[ { "node": "Detect Phase (BERT AI)", "type": "main", "index": 0 } ]] },
         "Detect Phase (BERT AI)": { "main": [[ { "node": "Generate Response (Template + AI)", "type": "main", "index": 0 } ]] },
         "Generate Response (Template + AI)": { "main": [[ { "node": "Generate and Open Chat Dashboard", "type": "main", "index": 0 } ]] }
     },

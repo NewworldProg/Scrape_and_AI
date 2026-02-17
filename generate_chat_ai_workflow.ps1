@@ -143,19 +143,6 @@ $chatAiWorkflow = [ordered]@{
             position = @(1140, 300)
         },
         @{
-            "__comment" = "======== node for cleaning up duplicate chat sessions =============="
-            "works" = "executes a powershell script to cleanup duplicate chat sessions from database"
-            parameters = @{
-                command = "powershell -ExecutionPolicy Bypass -File `"$pathForJson\\run_scripts\\run_cleanup_chat_database.ps1`""
-                workingDirectory = $pathForJson
-            }
-            id = "7hafcafb-chat-cleanup"
-            name = "Cleanup Chat Database"
-            type = "n8n-nodes-base.executeCommand"
-            typeVersion = 1
-            position = @(1240, 300)
-        },
-        @{
             "__comment" = "======== STEP 1: BERT AI PHASE DETECTION ============"
             "works" = "Uses BERT AI model to detect conversation phase only"
             phases = @(
@@ -258,8 +245,7 @@ $connections = @(
     '"Wait for Chrome Chat Startup": { "main": [[ { "node": "Wait for Chat Navigation", "type": "main", "index": 0 } ]] }',
     '"Wait for Chat Navigation": { "main": [[ { "node": "Run Chat Scraper", "type": "main", "index": 0 } ]] }',
     '"Run Chat Scraper": { "main": [[ { "node": "Parse Chat Messages", "type": "main", "index": 0 } ]] }',
-    '"Parse Chat Messages": { "main": [[ { "node": "Cleanup Chat Database", "type": "main", "index": 0 } ]] }',
-    '"Cleanup Chat Database": { "main": [[ { "node": "Detect Phase (BERT AI)", "type": "main", "index": 0 } ]] }',
+    '"Parse Chat Messages": { "main": [[ { "node": "Detect Phase (BERT AI)", "type": "main", "index": 0 } ]] }',
     '"Detect Phase (BERT AI)": { "main": [[ { "node": "Generate Response (Template + AI)", "type": "main", "index": 0 } ]] }',
     '"Generate Response (Template + AI)": { "main": [[ { "node": "Generate and Open Chat Dashboard", "type": "main", "index": 0 } ]] }'
 )

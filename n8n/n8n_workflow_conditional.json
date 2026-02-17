@@ -30,8 +30,8 @@
             "typeVersion":  1,
             "__comment":  "======== node for checking chrome status ==============",
             "parameters":  {
-                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
-                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_check_chrome_n8n.ps1\""
+                               "workingDirectory":  "L:\\\\git\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"L:\\\\git\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_check_chrome_n8n.ps1\""
                            },
             "works":  "executes a powershell script to check chrome status and returns boolean to n8n",
             "position":  [
@@ -78,8 +78,8 @@
             "typeVersion":  1,
             "__comment":  "======== node for starting chrome ==============",
             "parameters":  {
-                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
-                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_start_chrome_simple.ps1\""
+                               "workingDirectory":  "L:\\\\git\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"L:\\\\git\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_start_chrome_simple.ps1\""
                            },
             "works":  "executes a powershell script to start chrome",
             "position":  [
@@ -126,8 +126,8 @@
             "typeVersion":  1,
             "__comment":  "======== node for running js scraper ==============",
             "parameters":  {
-                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
-                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_js_scraper.ps1\""
+                               "workingDirectory":  "L:\\\\git\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"L:\\\\git\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_js_scraper.ps1\""
                            },
             "works":  "executes a powershell script to run js scraper",
             "position":  [
@@ -142,8 +142,8 @@
             "typeVersion":  1,
             "__comment":  "======== node for saving HTML to database ==============",
             "parameters":  {
-                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
-                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_save_html_to_db.ps1\""
+                               "workingDirectory":  "L:\\\\git\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"L:\\\\git\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_save_html_to_db.ps1\""
                            },
             "works":  "saves latest scraped HTML file to database using UpworkDatabase class",
             "position":  [
@@ -158,8 +158,8 @@
             "typeVersion":  1,
             "__comment":  "======== node for parsing HTML from database ==============",
             "parameters":  {
-                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
-                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_parse_html_only.ps1\""
+                               "workingDirectory":  "L:\\\\git\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"L:\\\\git\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_parse_html_only.ps1\""
                            },
             "works":  "parses HTML from database using UpworkDatabase class and returns job data",
             "position":  [
@@ -174,8 +174,8 @@
             "typeVersion":  1,
             "__comment":  "======== node for importing jobs to database ==============",
             "parameters":  {
-                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
-                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_import_jobs_to_db.ps1\""
+                               "workingDirectory":  "L:\\\\git\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"L:\\\\git\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_import_jobs_to_db.ps1\""
                            },
             "works":  "imports parsed job data to database using UpworkDatabase class",
             "position":  [
@@ -190,8 +190,8 @@
             "typeVersion":  1,
             "__comment":  "======== node for generating and opening dashboard ==============",
             "parameters":  {
-                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
-                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_generate_and_open_dashboard.ps1\""
+                               "workingDirectory":  "L:\\\\git\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"L:\\\\git\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_generate_and_open_dashboard.ps1\""
                            },
             "works":  "executes a powershell script to generate and open dashboard",
             "position":  [
@@ -210,8 +210,7 @@
         "Run JS Scraper": { "main": [[ { "node": "Save HTML to Database", "type": "main", "index": 0 } ]] },
         "Save HTML to Database": { "main": [[ { "node": "Parse HTML", "type": "main", "index": 0 } ]] },
         "Parse HTML": { "main": [[ { "node": "Import to DB", "type": "main", "index": 0 } ]] },
-        "Import to DB": { "main": [[ { "node": "Cleanup Database Duplicates", "type": "main", "index": 0 } ]] },
-        "Cleanup Database Duplicates": { "main": [[ { "node": "Generate & Open Dashboard", "type": "main", "index": 0 } ]] }
+        "Import to DB": { "main": [[ { "node": "Generate & Open Dashboard", "type": "main", "index": 0 } ]] }
     },
     "createdAt": "2025-10-27T10:10:00.000Z",
     "updatedAt": "2025-10-27T10:10:00.000Z",

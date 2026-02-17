@@ -340,8 +340,7 @@ $connections = @(
     '"Run JS Scraper": { "main": [[ { "node": "Save HTML to Database", "type": "main", "index": 0 } ]] }',
     '"Save HTML to Database": { "main": [[ { "node": "Parse HTML", "type": "main", "index": 0 } ]] }',
     '"Parse HTML": { "main": [[ { "node": "Import to DB", "type": "main", "index": 0 } ]] }',
-    '"Import to DB": { "main": [[ { "node": "Cleanup Database Duplicates", "type": "main", "index": 0 } ]] }',
-    '"Cleanup Database Duplicates": { "main": [[ { "node": "Generate & Open Dashboard", "type": "main", "index": 0 } ]] }'
+    '"Import to DB": { "main": [[ { "node": "Generate & Open Dashboard", "type": "main", "index": 0 } ]] }'
 )
 for ($i = 0; $i -lt $connections.Length; $i++) {
     $comma = if ($i -lt $connections.Length - 1) { ',' } else { '' }

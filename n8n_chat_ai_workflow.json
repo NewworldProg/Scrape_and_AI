@@ -144,22 +144,6 @@
       ]
     },
     {
-      "__comment": "======== node for cleaning up duplicate chat sessions ==============",
-      "works": "executes a powershell script to cleanup duplicate chat sessions from database",
-      "parameters": {
-        "command": "powershell -ExecutionPolicy Bypass -File \"\\run_scripts\\run_cleanup_chat_database.ps1\"",
-        "workingDirectory": ""
-      },
-      "id": "7hafcafb-chat-cleanup",
-      "name": "Cleanup Chat Database",
-      "type": "n8n-nodes-base.executeCommand",
-      "typeVersion": 1,
-      "position": [
-        1240,
-        300
-      ]
-    },
-    {
       "__comment": "======== STEP 1: BERT AI PHASE DETECTION ============",
       "works": "Uses BERT AI model to detect conversation phase only",
       "phases": [
@@ -311,17 +295,6 @@
       ]
     },
     "Parse Chat Messages": {
-      "main": [
-        [
-          {
-            "node": "Cleanup Chat Database",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Cleanup Chat Database": {
       "main": [
         [
           {

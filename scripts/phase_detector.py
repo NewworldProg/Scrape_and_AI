@@ -148,7 +148,7 @@ class PhaseDetector:
     def predict(self, context, return_probabilities=False):
         """Predict conversation phase from context"""
         # Tokenize
-        encoding = self.tokenizer.encode_plus(
+        encoding = self.tokenizer(
             context, # text to be tokenized
             add_special_tokens=True, # add special tokens
             max_length=256, # max length of tokens

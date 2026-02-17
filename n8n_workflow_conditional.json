@@ -23,22 +23,22 @@
         300
       ]
     },
-    {
-      "__comment": "======== node for checking chrome status ==============",
-      "works": "executes a powershell script to check chrome status and returns boolean to n8n",
-      "parameters": {
-        "command": "powershell -ExecutionPolicy Bypass -File \"\\run_scripts\\run_check_chrome_n8n.ps1\"",
-        "workingDirectory": ""
+      {
+        "__comment": "======== node for checking chrome status ==============",
+        "works": "executes a powershell script to check chrome status and returns boolean to n8n",
+        "parameters": {
+          "command": "powershell -ExecutionPolicy Bypass -File \"\\run_scripts\\run_check_chrome_n8n.ps1\"",
+          "workingDirectory": ""
+        },
+        "id": "1dafcafb-1fc5-4b7b-9e8e-9f5f5c6e7dd1",
+        "name": "Check Chrome Status",
+        "type": "n8n-nodes-base.executeCommand",
+        "typeVersion": 1,
+        "position": [
+          340,
+          300
+        ]
       },
-      "id": "1dafcafb-1fc5-4b7b-9e8e-9f5f5c6e7dd1",
-      "name": "Check Chrome Status",
-      "type": "n8n-nodes-base.executeCommand",
-      "typeVersion": 1,
-      "position": [
-        340,
-        300
-      ]
-    },
     {
       "__comment": "======== node for redirection based on chrome status ==============",
       "works": "takes output from check chrome status if value us equal to true passes it",
