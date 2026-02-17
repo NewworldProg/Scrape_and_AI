@@ -101,10 +101,9 @@ Write-Host "   Ensuring local N8N version: $desiredN8nVersion" -ForegroundColor 
 # install local dependencies inside package.json if not in DryRun mode
 $packageJsonPath = Join-Path $newBasePath "package.json"
 if (Test-Path $packageJsonPath) {
-    Write-Host "   Installing local Node.js dependencies..." -ForegroundColor Yellow
+    Write-Host "   Installing local Node.js dependencies (single pass)..." -ForegroundColor Yellow
     if (-not $DryRun) {
         Set-Location $newBasePath
-        npm install
         npm install --save-exact "n8n@$desiredN8nVersion"
         Write-Host "   Local dependencies installed" -ForegroundColor Green
         Write-Host "   Local N8N installed: $desiredN8nVersion" -ForegroundColor Green
