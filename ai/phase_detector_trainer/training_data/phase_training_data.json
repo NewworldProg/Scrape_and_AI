@@ -1,0 +1,267 @@
+[
+    {
+        "phase": "initial_response",
+        "context": "Hello! I saw your application for the content writer position. Are you available for iGaming writing projects?",
+        "appropriate_response": "Thank you for reaching out! Yes, I'm very interested in this position. I have extensive experience with iGaming content. Could you tell me more about the project scope and requirements?"
+    },
+    {
+        "phase": "initial_response",
+        "context": "Hi, we received your cover letter. Are you available to start immediately?",
+        "appropriate_response": "Good day! Yes, I'm available and excited about this opportunity. What are the main deliverables you need?"
+    },
+    {
+        "phase": "initial_response",
+        "context": "Your profile looks great! Can you tell me about your experience with casino content?",
+        "appropriate_response": "Hello! I'd love to work on this project. I have [X years] experience writing casino reviews, slot guides, and gaming blog posts. Can you share more details about what you're looking for?"
+    },
+    {
+        "phase": "ask_details",
+        "context": "We need content for casino reviews, slot machine descriptions, and blog posts about gaming strategies. The volume is around 10-15 articles per week.",
+        "appropriate_response": "Thank you for the details. Could you confirm: which language do you need (English/Dutch)? And approximately how many words per article typically?"
+    },
+    {
+        "phase": "ask_details",
+        "context": "The project involves writing SEO-optimized content about online casinos. We need someone who can handle high volume.",
+        "appropriate_response": "Great! To ensure I can deliver exactly what you need, could you clarify the language preference and expected word count per piece?"
+    },
+    {
+        "phase": "ask_details",
+        "context": "We're looking for materials about sports betting and casino games. Can you handle technical topics?",
+        "appropriate_response": "Thanks for the info. Which language should the content be in, and what's the typical word count per article? Also, yes, I'm comfortable with technical gaming topics."
+    },
+    {
+        "phase": "knowledge_check",
+        "context": "Can you explain the difference between RTP and house edge? How would you explain this to readers?",
+        "appropriate_response": "⚠️ KNOWLEDGE CHECK DETECTED - This requires human expertise. Please review the question manually and provide a detailed, accurate answer based on your gaming knowledge."
+    },
+    {
+        "phase": "knowledge_check",
+        "context": "What do you know about responsible gambling practices? How would you incorporate this into casino reviews?",
+        "appropriate_response": "⚠️ Technical question detected. Recommend human review to provide accurate, specific answer about responsible gambling regulations and best practices."
+    },
+    {
+        "phase": "knowledge_check",
+        "context": "How familiar are you with different casino game providers like NetEnt, Microgaming, Pragmatic Play? Can you write detailed reviews?",
+        "appropriate_response": "⚠️ This appears to be a knowledge test. Human input needed for best response about specific gaming providers and their unique features."
+    },
+    {
+        "phase": "knowledge_check",
+        "context": "We need someone who understands SEO for gambling content. What's your approach to keyword optimization while staying compliant with Google's gambling policies?",
+        "appropriate_response": "⚠️ KNOWLEDGE CHECK - This requires YOUR specific SEO expertise and understanding of gambling content regulations. Please provide detailed answer."
+    },
+    {
+        "phase": "language_confirm",
+        "context": "We need content in Dutch. Are you comfortable writing in Dutch? The content should be native-level quality.",
+        "appropriate_response": "Perfect! For Dutch content, my rate is $0.06-0.07 per word depending on volume and complexity. What's your budget?"
+    },
+    {
+        "phase": "language_confirm",
+        "context": "Can you write in both English and Dutch? We might need bilingual content.",
+        "appropriate_response": "Understood - I can handle both languages. For Dutch content I charge $0.06-0.07 per word. Does this work with your budget?"
+    },
+    {
+        "phase": "language_confirm",
+        "context": "The primary language is English, but we occasionally need Dutch translations. Is that okay?",
+        "appropriate_response": "Got it! My rate for English is [rate], and for Dutch is $0.06-0.07 per word. Shall we discuss the specific rate based on volume?"
+    },
+    {
+        "phase": "rate_negotiation",
+        "context": "Our budget is $0.05-0.06 per word for Dutch content. Can you work with this rate?",
+        "appropriate_response": "Thank you for sharing your budget. For high-quality Dutch gaming content, I typically work at $0.06-0.07 per word. For larger volumes, I could consider $0.06. What's the expected weekly volume?"
+    },
+    {
+        "phase": "rate_negotiation",
+        "context": "We can offer $0.07 per word. How does that sound?",
+        "appropriate_response": "Sounds good! $0.07 per word works perfectly. What's the deadline for this batch? And could you share a sample article so I can match your tone and style?"
+    },
+    {
+        "phase": "rate_negotiation",
+        "context": "What's your rate for this type of content? We're flexible on pricing for quality work.",
+        "appropriate_response": "For professional iGaming content in Dutch, my rate is $0.06-0.07 per word depending on complexity and volume. For consistent work, we can discuss volume discounts."
+    },
+    {
+        "phase": "deadline_samples",
+        "context": "We need the first batch by Monday. Can you deliver 5 articles (1000 words each) by then?",
+        "appropriate_response": "Yes, Monday deadline works for me. Could you share a sample article so I can match your tone and style? Also, do you have content briefs ready?"
+    },
+    {
+        "phase": "deadline_samples",
+        "context": "The deadline is flexible, but ideally within this week. I'll send you example articles and briefs today.",
+        "appropriate_response": "Perfect! Could you provide: 1) Specific deadline for first delivery, and 2) Sample articles to ensure I match your quality expectations?"
+    },
+    {
+        "phase": "deadline_samples",
+        "context": "Here's a sample article [link]. We need similar quality. When can you start?",
+        "appropriate_response": "Thank you for the sample! I can start immediately. What's the deadline for the first batch, and how many articles do you need initially?"
+    },
+    {
+        "phase": "structure_clarification",
+        "context": "Each article should have H1, multiple H2s, H3s where needed, FAQ section, and internal links. SEO-optimized with target keywords.",
+        "appropriate_response": "Thank you for the structure details. I see you need H2/H3 structure with SEO optimization. Do you have specific keyword targets or will you provide those in the brief?"
+    },
+    {
+        "phase": "structure_clarification",
+        "context": "We follow a specific template: Intro (150 words), 3-4 H2 sections (250 words each), FAQ (5 questions), Conclusion (100 words). Sound good?",
+        "appropriate_response": "Got the structure requirements. For the H2 sections: should I follow any specific angle or format (e.g., pros/cons, step-by-step, comparison)?"
+    },
+    {
+        "phase": "structure_clarification",
+        "context": "SEO is important - we need natural keyword integration, meta descriptions, and readability score above 60. Can you handle this?",
+        "appropriate_response": "Perfect! I'm experienced with SEO optimization and readability. Could you clarify: do you have a preferred tool for readability (Yoast, Hemingway)? And will you provide target keywords?"
+    },
+    {
+        "phase": "contract_acceptance",
+        "context": "Great! I'm sending you a contract offer now. Please review and accept when ready.",
+        "appropriate_response": "Perfect! I have all the details I need. I'll review and accept the contract right away, then start on the first batch immediately."
+    },
+    {
+        "phase": "contract_acceptance",
+        "context": "I've sent the Upwork contract. Once you accept, you can start working.",
+        "appropriate_response": "Thank you! I've accepted the offer. I'll start working on this now and keep you updated with progress."
+    },
+    {
+        "phase": "contract_acceptance",
+        "context": "Okay, let's move forward. Accept the contract and we'll begin with the first 5 articles.",
+        "appropriate_response": "Excellent! Contract accepted. I'll deliver the first 5 articles by [deadline]. You can expect high-quality, SEO-optimized content."
+    },
+    {
+        "phase": "knowledge_check",
+        "context": "Before we proceed, can you write a short sample paragraph about RTP in slot machines? Just want to verify your writing style.",
+        "appropriate_response": "⚠️ WRITING SAMPLE REQUEST - This is a knowledge/skill check. Please write this manually to demonstrate your actual expertise and writing quality."
+    },
+    {
+        "phase": "knowledge_check",
+        "context": "What's your understanding of crypto casinos? We're expanding into that niche.",
+        "appropriate_response": "⚠️ KNOWLEDGE CHECK - Human expertise needed. Provide detailed answer about cryptocurrency gambling, blockchain casinos, provably fair games, etc."
+    },
+    {
+        "phase": "knowledge_check",
+        "context": "How would you approach writing about live dealer games versus RNG-based games?",
+        "appropriate_response": "⚠️ This requires YOUR specific industry knowledge and writing approach. Please provide a detailed, personalized answer."
+    },
+    {
+        "phase": "initial_response",
+        "context": "Hi there! We liked your portfolio. Are you available for a long-term iGaming writing project?",
+        "appropriate_response": "Thank you! Yes, I'm available for long-term projects. I'd love to hear more about what you need."
+    },
+    {
+        "phase": "initial_response",
+        "context": "Hello, I'm looking for a content writer. Can you start this week?",
+        "appropriate_response": "Good day! Yes, I can start this week. Please tell me more about the project requirements."
+    },
+    {
+        "phase": "initial_response",
+        "context": "Your cover letter caught my attention. Do you have experience with gambling content specifically?",
+        "appropriate_response": "Thank you! Yes, I specialize in gambling and iGaming content. What kind of materials do you need?"
+    },
+    {
+        "phase": "ask_details",
+        "context": "We need articles about payment methods, game providers, and casino bonuses. About 20 articles per month.",
+        "appropriate_response": "Great! Which language would you like the content in? And what's the typical word count per article?"
+    },
+    {
+        "phase": "ask_details",
+        "context": "The project is for a new casino comparison website. We need regular content updates.",
+        "appropriate_response": "Sounds interesting! Could you specify the language, article length, and main topics you want covered?"
+    },
+    {
+        "phase": "ask_details",
+        "context": "I need someone who can write about slots, table games, and live casino. High volume work.",
+        "appropriate_response": "Perfect, those are my specialties. Which language and what volume are we talking about per week?"
+    },
+    {
+        "phase": "language_confirm",
+        "context": "We need English primarily, but occasional Dutch translations would be a bonus.",
+        "appropriate_response": "I can handle both! My rate for English is [rate], and for Dutch $0.06-0.07 per word. What's your budget?"
+    },
+    {
+        "phase": "language_confirm",
+        "context": "All content should be in Dutch for the Netherlands market.",
+        "appropriate_response": "Perfect! I specialize in Dutch gaming content. My rate is $0.06-0.07 per word. Does that fit your budget?"
+    },
+    {
+        "phase": "language_confirm",
+        "context": "English content only. Native or near-native level required.",
+        "appropriate_response": "Understood. I provide native-level English content. My rate is [rate] per word. Shall we discuss pricing?"
+    },
+    {
+        "phase": "rate_negotiation",
+        "context": "We can pay $0.08 per word for quality Dutch content. Sound good?",
+        "appropriate_response": "That sounds excellent! When would you need the first batch delivered? Also, do you have sample articles?"
+    },
+    {
+        "phase": "rate_negotiation",
+        "context": "Budget is tight - can you do $0.05 per word for high volume work?",
+        "appropriate_response": "For high-quality Dutch gaming content, my minimum is $0.06 per word. For very high volumes (50+ articles/month), I could consider $0.055."
+    },
+    {
+        "phase": "rate_negotiation",
+        "context": "What's your best rate for 30 articles per month, 800-1000 words each?",
+        "appropriate_response": "For that volume, I can offer $0.065 per word. That ensures consistent quality and priority scheduling."
+    },
+    {
+        "phase": "deadline_samples",
+        "context": "First batch needed by Friday. I'll send sample articles and briefs today.",
+        "appropriate_response": "Friday works! Looking forward to the samples. How many articles in the first batch?"
+    },
+    {
+        "phase": "deadline_samples",
+        "context": "Can you do 3 test articles by Wednesday? I'll provide examples and keyword lists.",
+        "appropriate_response": "Yes, Wednesday is doable for 3 articles. Please send the examples and keywords whenever ready."
+    },
+    {
+        "phase": "deadline_samples",
+        "context": "No rush on deadline. Here's a link to our current content - match this style please.",
+        "appropriate_response": "Thank you for the reference! I'll review the style carefully. What's a comfortable deadline for the first delivery?"
+    },
+    {
+        "phase": "structure_clarification",
+        "context": "We use Yoast SEO - need green lights on readability and SEO. Include meta descriptions.",
+        "appropriate_response": "Perfect! I'm experienced with Yoast optimization. Will you provide target keywords, or should I do keyword research?"
+    },
+    {
+        "phase": "structure_clarification",
+        "context": "Format: 1200 words, intro, 4 H2 sections, FAQ with 5 questions, conclusion. Links to our other pages.",
+        "appropriate_response": "Clear structure! For internal linking, will you provide the URLs, or should I suggest relevant pages from your site?"
+    },
+    {
+        "phase": "structure_clarification",
+        "context": "Keep it conversational but informative. Use bullet points where appropriate. No keyword stuffing.",
+        "appropriate_response": "Understood! Natural, reader-friendly content with strategic keyword placement. Do you have a preferred tone (casual, professional, authoritative)?"
+    },
+    {
+        "phase": "contract_acceptance",
+        "context": "Perfect! Sending contract now for [amount]. Looking forward to working together!",
+        "appropriate_response": "Excellent! I'll accept the contract immediately and start on the first batch. Thank you for the opportunity!"
+    },
+    {
+        "phase": "contract_acceptance",
+        "context": "Contract sent. Once accepted, you can begin. First milestone is [amount].",
+        "appropriate_response": "Contract accepted! Starting work now. I'll keep you updated on progress and deliver by [deadline]."
+    },
+    {
+        "phase": "contract_acceptance",
+        "context": "Let's do this! Accept the offer and we'll get started with the test batch.",
+        "appropriate_response": "Done! Offer accepted. I'm starting the test batch now. Excited to work with you!"
+    },
+    {
+        "phase": "knowledge_check",
+        "context": "What's your opinion on the recent UKGC regulations regarding advertising? How would you write about them?",
+        "appropriate_response": "⚠️ KNOWLEDGE CHECK - Requires detailed understanding of UK gambling regulations. Please provide your expert analysis."
+    },
+    {
+        "phase": "knowledge_check",
+        "context": "Can you write a sample introduction about progressive jackpot slots? Just 2-3 sentences to see your style.",
+        "appropriate_response": "⚠️ WRITING SAMPLE REQUEST - Please write this manually to showcase your actual writing style and expertise."
+    },
+    {
+        "phase": "knowledge_check",
+        "context": "How would you explain blockchain gambling to someone who's never heard of crypto?",
+        "appropriate_response": "⚠️ This requires YOUR ability to simplify complex topics. Please provide your own explanation demonstrating your expertise."
+    },
+    {
+        "phase": "knowledge_check",
+        "context": "What tools do you use for SEO research and content optimization?",
+        "appropriate_response": "⚠️ TECHNICAL QUESTION - Answer with YOUR actual tools and workflow: Ahrefs, SEMrush, Surfer SEO, etc. Be specific."
+    }
+]

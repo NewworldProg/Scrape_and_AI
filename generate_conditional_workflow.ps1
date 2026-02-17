@@ -1,0 +1,378 @@
+param(
+    [string]$ProjectRoot = $PWD.Path,
+    [string]$OutputDir = "n8n"
+)
+
+# N8N Conditional Workflow Generator
+# Creates the complete conditional workflow with dynamic paths
+
+Write-Host "=== N8N Conditional Workflow Generator ===" -ForegroundColor Cyan
+Write-Host "Project Root: $ProjectRoot" -ForegroundColor Yellow
+Write-Host "Output: $ProjectRoot\$OutputDir" -ForegroundColor Yellow
+Write-Host ""
+
+# Normalize path for JSON (double backslashes for JSON escaping)
+$pathForJson = $ProjectRoot.Replace('\', '\\')
+
+# Create output directory if it doesn't exist
+$outputPath = Join-Path $ProjectRoot $OutputDir
+if (-not (Test-Path $outputPath)) {
+    New-Item -ItemType Directory -Path $outputPath -Force | Out-Null
+}
+
+# Generate the complete conditional workflow using hashtable
+$conditionalWorkflow = [ordered]@{
+    name         = "Upwork Scraper Conditional"
+    nodes        = @(
+        @{
+            "__comment" = "======== node for scheduling workflow every 2 hours =============="
+            "works"     = "interval field takes arguments like minutes, hours, days etc."
+            parameters  = @{
+                rule = @{
+                    interval = @(
+                        @{
+                            field         = "hours"
+                            hoursInterval = 2
+                        }
+                    )
+                }
+            }
+            id          = "af9dda90-db1b-4f3b-ba70-5ac8e7fce9d8"
+            name        = "Schedule Trigger"
+            type        = "n8n-nodes-base.scheduleTrigger"
+            typeVersion = 1.1
+            position    = @(140, 300)
+        },
+        @{
+            "__comment" = "======== node for checking chrome status =============="
+            "works"     = "executes a powershell script to check chrome status and returns boolean to n8n"
+            parameters  = @{
+                command          = "powershell -ExecutionPolicy Bypass -File `"$pathForJson\\run_scripts\\run_check_chrome_n8n.ps1`""
+                workingDirectory = $pathForJson
+            }
+            id          = "1dafcafb-1fc5-4b7b-9e8e-9f5f5c6e7dd1"
+            name        = "Check Chrome Status"
+            type        = "n8n-nodes-base.executeCommand"
+            typeVersion = 1
+            position    = @(340, 300)
+        },
+        @{
+            "__comment" = "======== node for redirection based on chrome status =============="
+            "works"     = "takes output from check chrome status if value us equal to true passes it"
+            parameters  = @{
+                conditions = @{
+                    boolean  = @()
+                    dateTime = @()
+                    number   = @()
+                    string   = @(
+                        @{
+                            value1    = "={{JSON.parse(`$node[`"Check Chrome Status`"].json[`"stdout`"]).chrome_ready}}"
+                            operation = "equal"
+                            value2    = "true"
+                        }
+                    )
+                }
+            }
+            id          = "2eafcafb-1fc5-4b7b-9e8e-9f5f5c6e7dd2"
+            name        = "IF Chrome Ready"
+            type        = "n8n-nodes-base.if"
+            typeVersion = 1
+            position    = @(540, 300)
+        },
+        @{
+            "__comment" = "======== node for starting chrome =============="
+            "works"     = "executes a powershell script to start chrome"
+            parameters  = @{
+                command          = "powershell -ExecutionPolicy Bypass -File `"$pathForJson\\run_scripts\\run_start_chrome_simple.ps1`""
+                workingDirectory = $pathForJson
+            }
+            id          = "3fafcafb-1fc5-4b7b-9e8e-9f5f5c6e7dd3"
+            name        = "Start Chrome"
+            type        = "n8n-nodes-base.executeCommand"
+            typeVersion = 1
+            position    = @(540, 500)
+        },
+        @{
+            "__comment" = "======== node for waiting for chrome startup =============="
+            "works"     = "waits for a specified amount of time than proceeds to next node"
+            parameters  = @{
+                amount = 6
+                unit   = "seconds"
+            }
+            id          = "3gafcafb-1fc5-4b7b-9e8e-9f5f5c6e7dd6"
+            name        = "Wait for Chrome Startup"
+            type        = "n8n-nodes-base.wait"
+            typeVersion = 1
+            position    = @(540, 650)
+        },
+        @{
+            "__comment" = "======== node for waiting for chrome page navigation =============="
+            "works"     = "waits for a specified amount of time than proceeds to next node"
+            parameters  = @{
+                amount = 20
+                unit   = "seconds"
+            }
+            id          = "4gafcafb-1fc5-4b7b-9e8e-9f5f5c6e7dd4"
+            name        = "Wait for Human Navigation"
+            type        = "n8n-nodes-base.wait"
+            typeVersion = 1
+            position    = @(740, 300)
+        },
+        @{
+            "__comment" = "======== node for running js scraper =============="
+            "works"     = "executes a powershell script to run js scraper"
+            parameters  = @{
+                command          = "powershell -ExecutionPolicy Bypass -File `"$pathForJson\\run_scripts\\run_js_scraper.ps1`""
+                workingDirectory = $pathForJson
+            }
+            id          = "5hafcafb-1fc5-4b7b-9e8e-9f5f5c6e7dd5"
+            name        = "Run JS Scraper"
+            type        = "n8n-nodes-base.executeCommand"
+            typeVersion = 1
+            position    = @(940, 300)
+        },
+        @{
+            "__comment" = "======== node for saving HTML to database =============="
+            "works"     = "saves latest scraped HTML file to database using UpworkDatabase class"
+            parameters  = @{
+                command          = "powershell -ExecutionPolicy Bypass -File `"$pathForJson\\run_scripts\\run_save_html_to_db.ps1`""
+                workingDirectory = $pathForJson
+            }
+            id          = "7hafcafb-1fc5-4b7b-9e8e-9f5f5c6e7dd7"
+            name        = "Save HTML to Database"
+            type        = "n8n-nodes-base.executeCommand"
+            typeVersion = 1
+            position    = @(1140, 300)
+        },
+        @{
+            "__comment" = "======== node for parsing HTML from database =============="
+            "works"     = "parses HTML from database using UpworkDatabase class and returns job data"
+            parameters  = @{
+                command          = "powershell -ExecutionPolicy Bypass -File `"$pathForJson\\run_scripts\\run_parse_html_only.ps1`""
+                workingDirectory = $pathForJson
+            }
+            id          = "8hafcafb-1fc5-4b7b-9e8e-9f5f5c6e7dd8"
+            name        = "Parse HTML"
+            type        = "n8n-nodes-base.executeCommand"
+            typeVersion = 1
+            position    = @(1340, 300)
+        },
+        @{
+            "__comment" = "======== node for importing jobs to database =============="
+            "works"     = "imports parsed job data to database using UpworkDatabase class"
+            parameters  = @{
+                command          = "powershell -ExecutionPolicy Bypass -File `"$pathForJson\\run_scripts\\run_import_jobs_to_db.ps1`""
+                workingDirectory = $pathForJson
+            }
+            id          = "9hafcafb-1fc5-4b7b-9e8e-9f5f5c6e7dd9"
+            name        = "Import to DB"
+            type        = "n8n-nodes-base.executeCommand"
+            typeVersion = 1
+            position    = @(1540, 300)
+        },
+        @{
+            "__comment" = "======== node for generating and opening dashboard =============="
+            "works"     = "executes a powershell script to generate and open dashboard"
+            parameters  = @{
+                command          = "powershell -ExecutionPolicy Bypass -File `"$pathForJson\\run_scripts\\run_generate_and_open_dashboard.ps1`""
+                workingDirectory = $pathForJson
+            }
+            id          = "6hafcafb-1fc5-4b7b-9e8e-9f5f5c6e7dd6"
+            name        = "Generate & Open Dashboard"
+            type        = "n8n-nodes-base.executeCommand"
+            typeVersion = 1
+            position    = @(1840, 300)
+        }
+    )
+    connections  = [ordered]@{
+        "Schedule Trigger"            = @{
+            main = @(
+                @(
+                    @{
+                        node  = "Check Chrome Status"
+                        type  = "main"
+                        index = 0
+                    }
+                )
+            )
+        }
+        "Check Chrome Status"         = @{
+            main = @(
+                @(
+                    @{
+                        node  = "IF Chrome Ready"
+                        type  = "main"
+                        index = 0
+                    }
+                )
+            )
+        }
+        "IF Chrome Ready"             = @{
+            main = @(
+                @(
+                    @{
+                        node  = "Wait for Human Navigation"
+                        type  = "main"
+                        index = 0
+                    }
+                ),
+                @(
+                    @{
+                        node  = "Start Chrome"
+                        type  = "main"
+                        index = 0
+                    }
+                )
+            )
+        }
+        "Start Chrome"                = @{
+            main = @(
+                @(
+                    @{
+                        node  = "Wait for Chrome Startup"
+                        type  = "main"
+                        index = 0
+                    }
+                )
+            )
+        }
+        "Wait for Chrome Startup"     = @{
+            main = @(
+                @(
+                    @{
+                        node  = "Check Chrome Status"
+                        type  = "main"
+                        index = 0
+                    }
+                )
+            )
+        }
+        "Wait for Human Navigation"   = @{
+            main = @(
+                @(
+                    @{
+                        node  = "Run JS Scraper"
+                        type  = "main"
+                        index = 0
+                    }
+                )
+            )
+        }
+        "Run JS Scraper"              = @{
+            main = @(
+                @(
+                    @{
+                        node  = "Save HTML to Database"
+                        type  = "main"
+                        index = 0
+                    }
+                )
+            )
+        }
+        "Save HTML to Database"       = @{
+            main = @(
+                @(
+                    @{
+                        node  = "Parse HTML"
+                        type  = "main"
+                        index = 0
+                    }
+                )
+            )
+        }
+        "Parse HTML"                  = @{
+            main = @(
+                @(
+                    @{
+                        node  = "Import to DB"
+                        type  = "main"
+                        index = 0
+                    }
+                )
+            )
+        }
+        "Import to DB"                = @{
+            main = @(
+                @(
+                    @{
+                        node  = "Generate & Open Dashboard"
+                        type  = "main"
+                        index = 0
+                    }
+                )
+            )
+        }
+    }
+    createdAt    = "2025-10-27T10:10:00.000Z"
+    updatedAt    = "2025-10-27T10:10:00.000Z"
+    settings     = @{}
+    staticData   = $null
+    meta         = @{
+        templateCredsSetupCompleted = $true
+    }
+    pinData      = @{}
+    versionId    = "9bb2e7aa-1df2-4c86-9567-4f1a2e9c8e7k"
+    triggerCount = 0
+    tags         = @()
+}
+
+# Convert to JSON and save - build connections manually for proper format
+Write-Host "1. Creating conditional workflow..." -ForegroundColor Green
+
+# Build proper JSON structure manually
+$jsonParts = @()
+$jsonParts += '{'
+$jsonParts += '    "name": "Upwork Scraper Conditional",'
+
+# Add nodes section
+$nodesJson = ($conditionalWorkflow.nodes | ConvertTo-Json -Depth 10) -replace '^', '    ' -replace '(?m)^', '    '
+$jsonParts += '    "nodes": ' + $nodesJson + ','
+
+# Add connections manually with proper format
+$jsonParts += '    "connections": {'
+$connections = @(
+    '"Schedule Trigger": { "main": [[ { "node": "Check Chrome Status", "type": "main", "index": 0 } ]] }',
+    '"Check Chrome Status": { "main": [[ { "node": "IF Chrome Ready", "type": "main", "index": 0 } ]] }',
+    '"IF Chrome Ready": { "main": [[ { "node": "Wait for Human Navigation", "type": "main", "index": 0 } ], [ { "node": "Start Chrome", "type": "main", "index": 0 } ]] }',
+    '"Start Chrome": { "main": [[ { "node": "Wait for Chrome Startup", "type": "main", "index": 0 } ]] }',
+    '"Wait for Chrome Startup": { "main": [[ { "node": "Check Chrome Status", "type": "main", "index": 0 } ]] }',
+    '"Wait for Human Navigation": { "main": [[ { "node": "Run JS Scraper", "type": "main", "index": 0 } ]] }',
+    '"Run JS Scraper": { "main": [[ { "node": "Save HTML to Database", "type": "main", "index": 0 } ]] }',
+    '"Save HTML to Database": { "main": [[ { "node": "Parse HTML", "type": "main", "index": 0 } ]] }',
+    '"Parse HTML": { "main": [[ { "node": "Import to DB", "type": "main", "index": 0 } ]] }',
+    '"Import to DB": { "main": [[ { "node": "Cleanup Database Duplicates", "type": "main", "index": 0 } ]] }',
+    '"Cleanup Database Duplicates": { "main": [[ { "node": "Generate & Open Dashboard", "type": "main", "index": 0 } ]] }'
+)
+for ($i = 0; $i -lt $connections.Length; $i++) {
+    $comma = if ($i -lt $connections.Length - 1) { ',' } else { '' }
+    $jsonParts += "        $($connections[$i])$comma"
+}
+$jsonParts += '    },'
+
+# Add metadata
+$jsonParts += '    "createdAt": "2025-10-27T10:10:00.000Z",'
+$jsonParts += '    "updatedAt": "2025-10-27T10:10:00.000Z",'
+$jsonParts += '    "settings": {},'
+$jsonParts += '    "staticData": null,'
+$jsonParts += '    "meta": { "templateCredsSetupCompleted": true },'
+$jsonParts += '    "pinData": {},'
+$jsonParts += '    "versionId": "9bb2e7aa-1df2-4c86-9567-4f1a2e9c8e7k",'
+$jsonParts += '    "triggerCount": 0,'
+$jsonParts += '    "tags": []'
+$jsonParts += '}'
+
+$jsonContent = $jsonParts -join "`n"
+$outputFile = Join-Path $outputPath "n8n_workflow_conditional.json"
+$jsonContent | Out-File -FilePath $outputFile -Encoding UTF8
+
+Write-Host "Created: n8n_workflow_conditional.json" -ForegroundColor White
+
+Write-Host ""
+Write-Host "=== GENERATION COMPLETE ===" -ForegroundColor Cyan
+Write-Host "Created conditional workflow in: $outputPath" -ForegroundColor Green
+Write-Host "All paths configured for: $ProjectRoot" -ForegroundColor Yellow
+Write-Host ""
+Write-Host "Next steps:" -ForegroundColor White
+Write-Host "1. Start N8N: n8n start" -ForegroundColor Gray
+Write-Host "2. Import this .json file" -ForegroundColor Gray  
+Write-Host "3. Activate workflow" -ForegroundColor Gray

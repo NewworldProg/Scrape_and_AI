@@ -1,0 +1,2182 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Opportunities Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4a90e2 0%, #7b68ee 100%);
+            min-height: 100vh;
+            padding: 15px;
+            font-size: 14px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 18px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .content-section {
+            padding: 20px;
+        }
+        
+        .section-title {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #14A76C;
+            padding-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .pagination-info {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .jobs-grid {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .job-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 18px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .job-card:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+            transform: translateY(-1px);
+        }
+        
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .job-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            flex: 1;
+            margin-right: 10px;
+        }
+        
+        .job-title a {
+            color: #2c3e50;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .job-title a:hover {
+            color: #34495e;
+            text-decoration: underline;
+        }
+        
+        .cover-letter-badge {
+            display: inline-flex;
+            align-items: center;
+            background: #27ae60;
+            color: white;
+            font-size: 0.75em;
+            padding: 3px 8px;
+            border-radius: 12px;
+            margin-left: 8px;
+            white-space: nowrap;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+        
+        .cover-letter-badge:hover {
+            background: #219a52;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .cover-letter-badge.pending {
+            background: #e74c3c;
+            cursor: default;
+        }
+        
+        .cover-letter-badge.pending:hover {
+            background: #c0392b;
+        }
+        
+        .cover-letter-badge .icon {
+            margin-right: 4px;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .close-modal {
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+            background: none;
+            border: none;
+        }
+        
+        .close-modal:hover {
+            color: #333;
+        }
+        
+        .cover-letter-content {
+            line-height: 1.6;
+            white-space: pre-wrap;
+            color: #444;
+            font-family: Georgia, serif;
+        }
+        
+        .external-link {
+            background: #3498db;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.8em;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .external-link:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+        
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .job-meta-item {
+            background: #f0f0f0;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            color: #666;
+        }
+        
+        .job-type-fixed {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .job-type-hourly {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+        
+        .job-description {
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            font-size: 0.9em;
+        }
+        
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        
+        .skill-tag {
+            background: #3498db;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+        }
+        
+        .skills-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+        }
+        
+        .skill-item {
+            background: white;
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .skill-name {
+            font-weight: bold;
+            color: #333;
+            font-size: 0.85em;
+        }
+        
+        .skill-count {
+            color: #3498db;
+            font-size: 0.8em;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .page-btn {
+            padding: 8px 12px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #333;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+        
+        .page-btn:hover {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .page-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        
+        .page-dots {
+            padding: 8px 4px;
+            color: #999;
+        }
+        
+        .timestamp {
+            text-align: center;
+            color: #666;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 0.85em;
+        }
+        
+        .no-data {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                padding: 15px;
+            }
+            
+            .job-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .job-title {
+                margin-right: 0;
+                margin-bottom: 8px;
+            }
+            
+            .job-meta {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .external-link {
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💼 Job Opportunities Dashboard</h1>
+            <p>Freelance jobs overview - November 19, 2025 at 20:56</p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">46</div>
+                <div class="stat-label">Total Opportunities</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">50</div>
+                <div class="stat-label">Data Collections</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">50</div>
+                <div class="stat-label">Last 7 Days</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10</div>
+                <div class="stat-label">Active Skills</div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">📊 Opportunities by Type</h2>
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-number">25</div>
+                    <div class="stat-label">Developer / Engineer</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Manager / Executive</div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">🏆 Most Popular Skills</h2>
+            <div class="skills-section">
+                <div class="skills-grid">
+
+                    <div class="skill-item">
+                        <div class="skill-name">Back end</div>
+                        <div class="skill-count">22 times</div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-name">Cloud</div>
+                        <div class="skill-count">8 times</div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-name">Database</div>
+                        <div class="skill-count">8 times</div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-name">Systems</div>
+                        <div class="skill-count">7 times</div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-name">Big Data</div>
+                        <div class="skill-count">6 times</div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-name">Lead</div>
+                        <div class="skill-count">6 times</div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-name">Machine Learning</div>
+                        <div class="skill-count">5 times</div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-name">Operations</div>
+                        <div class="skill-count">4 times</div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-name">Web</div>
+                        <div class="skill-count">4 times</div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-name">Support Analyst (2 years of Python experience)</div>
+                        <div class="skill-count">1 times</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">
+                <span>💼 Job Opportunities</span>
+                <span class="pagination-info">Showing all 46 opportunities</span>
+            </h2>
+
+            <div class="jobs-grid">
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/8005/" target="_blank">Experienced Software Engineer — Systems</a>
+
+                        </div>
+
+                        <a href="#" class="cover-letter-badge" onclick="openCoverLetterModal('Experienced Software Engineer — Systems', 'trained_gpt2_smart', `Dear Hiring Manager,\n\nI am excited to apply for the Experienced Software Engineer — Systems position. I have been working in software development and systems engineering at a large organization since 2011. My background is based on experience with Windows Server 2003/2008 R2 operating system (Windows 2000), Linux kernel 3 or 4, Unix-like programs, embedded devices, networking tools such as DHCP, network management applications like NetFlow and IPsec, database servers and other data processing services that run across all platforms including iOS, Android phones etc. , web application frameworks which allow developers of mobile apps to develop faster & more efficiently while maintaining high standards within their projects. We are looking forward your consideration regarding my current project.\n\nBest regards,\n[Your Name]`)">
+                            <span class="icon">📄</span> View Cover Letter
+                        </a>
+
+                        <a href="https://python.org/jobs/8005/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 14 November 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Systems</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Systems</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/8004/" target="_blank">Privacy Engineer, Data Privacy Lab</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/8004/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 11 November 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end, Big Data, Machine Learning, Operations, Systems</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                        <span class="skill-tag">Big Data</span>
+
+                        <span class="skill-tag">Machine Learning</span>
+
+                        <span class="skill-tag">Operations</span>
+
+                        <span class="skill-tag">Systems</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/8003/" target="_blank">Senior Ground Software Engineer</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/8003/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 06 November 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end, Cloud, Database</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                        <span class="skill-tag">Cloud</span>
+
+                        <span class="skill-tag">Database</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/8002/" target="_blank">Backend Engineering Specialist (Full Time)</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/8002/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 05 November 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end, Database</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                        <span class="skill-tag">Database</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/8001/" target="_blank">Senior Back-End Developer</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/8001/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 03 November 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end, Cloud, Database, Lead, Operations, Web</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                        <span class="skill-tag">Cloud</span>
+
+                        <span class="skill-tag">Database</span>
+
+                        <span class="skill-tag">Lead</span>
+
+                        <span class="skill-tag">Operations</span>
+
+                        <span class="skill-tag">Web</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/8000/" target="_blank">Senior Software Engineer</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/8000/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 02 November 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: </div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag"></span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7999/" target="_blank">Lead Python Developer</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7999/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 28 October 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end, Cloud, Lead, Machine Learning</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                        <span class="skill-tag">Cloud</span>
+
+                        <span class="skill-tag">Lead</span>
+
+                        <span class="skill-tag">Machine Learning</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7998/" target="_blank">AI Automation & Integration Engineer</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7998/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 27 October 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end, Big Data, Database, Machine Learning, Web</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                        <span class="skill-tag">Big Data</span>
+
+                        <span class="skill-tag">Database</span>
+
+                        <span class="skill-tag">Machine Learning</span>
+
+                        <span class="skill-tag">Web</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7997/" target="_blank">Python developer (3-5 years experience) needed on strong team</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7997/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 27 October 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end, Database</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                        <span class="skill-tag">Database</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7996/" target="_blank">Tech Leader</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7996/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 22 October 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end, Lead</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                        <span class="skill-tag">Lead</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7995/" target="_blank">Python Software Engineer</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7995/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 21 October 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end, Evangelism, Front end, Operations, Systems, Testing, Web</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                        <span class="skill-tag">Evangelism</span>
+
+                        <span class="skill-tag">Front end</span>
+
+                        <span class="skill-tag">Operations</span>
+
+                        <span class="skill-tag">Systems</span>
+
+                        <span class="skill-tag">Testing</span>
+
+                        <span class="skill-tag">Web</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7994/" target="_blank">Senior Python Engineer (Supply Chain)</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7994/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 21 October 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7993/" target="_blank">Python Platform Engineer</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7993/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 21 October 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end, Cloud,  Platform</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                        <span class="skill-tag">Cloud</span>
+
+                        <span class="skill-tag"> Platform</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7990/" target="_blank">Senior Software Engineer (Back-End)</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7990/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 17 October 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end, Database</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                        <span class="skill-tag">Database</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7989/" target="_blank">Senior Software Language Engineer – Python</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7989/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 16 October 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Lead, Machine Learning, Numeric processing</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Lead</span>
+
+                        <span class="skill-tag">Machine Learning</span>
+
+                        <span class="skill-tag">Numeric processing</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7988/" target="_blank">Software Engineer (Enterprise Product, Observability; Remote)</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7988/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 14 October 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end, Big Data</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                        <span class="skill-tag">Big Data</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7987/" target="_blank">Software Engineer - Platform (Experienced)</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7987/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 14 October 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end, Big Data, Cloud</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                        <span class="skill-tag">Big Data</span>
+
+                        <span class="skill-tag">Cloud</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7986/" target="_blank">Senior/Expert Python Software Engineer</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7986/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 14 October 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end, Cloud, Database, Lead, Systems, Web</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                        <span class="skill-tag">Cloud</span>
+
+                        <span class="skill-tag">Database</span>
+
+                        <span class="skill-tag">Lead</span>
+
+                        <span class="skill-tag">Systems</span>
+
+                        <span class="skill-tag">Web</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7985/" target="_blank">Founding Backend Engineer (On-site San Francisco) — Python • AWS • LLM/RAG</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7985/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 13 October 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7974/" target="_blank">Senior Software Engineer (Python and Solidity)</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7974/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 26 September 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end, Integration, Lead, Systems</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                        <span class="skill-tag">Integration</span>
+
+                        <span class="skill-tag">Lead</span>
+
+                        <span class="skill-tag">Systems</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7973/" target="_blank">Senior Platform / Site Reliability Engineer (SRE) - FULLY REMOTE / EU / UK CANDIDATES / DUBAI</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7973/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 26 September 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end, Big Data, Cloud, Database, Operations, Systems</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                        <span class="skill-tag">Big Data</span>
+
+                        <span class="skill-tag">Cloud</span>
+
+                        <span class="skill-tag">Database</span>
+
+                        <span class="skill-tag">Operations</span>
+
+                        <span class="skill-tag">Systems</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7972/" target="_blank">Senior Python Software Engineer</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7972/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 25 September 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end, Big Data, Cloud, Machine Learning, Systems</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                        <span class="skill-tag">Big Data</span>
+
+                        <span class="skill-tag">Cloud</span>
+
+                        <span class="skill-tag">Machine Learning</span>
+
+                        <span class="skill-tag">Systems</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7969/" target="_blank">Backend Python Developer</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7969/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 18 September 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7968/" target="_blank">Open-Source Developer (Data Science Libraries)</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7968/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 15 September 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7984/" target="_blank">Technical Support Analyst (min 2 Years of Python experience required)</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7984/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Manager / Executive</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 11 October 2025</span>
+                    </div>
+
+                    <div class="job-description">Manager / Executive: Support Analyst (2 years of Python experience)</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Support Analyst (2 years of Python experience)</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://python.org/jobs/7976/" target="_blank">Senior Back-End Python Engineer</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://python.org/jobs/7976/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item job-type-hourly">Developer / Engineer</span>
+
+                        <span class="job-meta-item">$Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">Not specified</span>
+
+                        <span class="job-meta-item">📅 06 October 2025</span>
+                    </div>
+
+                    <div class="job-description">Developer / Engineer: Back end</div>
+
+                    <div class="skills-container">
+
+                        <span class="skill-tag">Back end</span>
+
+                    </div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Copywriter-for-Criminal-Lawyer_~021988489790883062923/" target="_blank">Copywriter for Criminal Lawyer</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Copywriter-for-Criminal-Lawyer_~021988489790883062923/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Hourly</span>
+                    </div>
+
+                    <div class="job-description">We are seeking a skilled copywriter to create compelling and informative content for a criminal lawyer (Australian criminal law). The i…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Romance-Fiction-Writer-for-000-Word-Story_~021988496934014901546/" target="_blank">Romance Fiction Writer for 10,000-Word Story</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Romance-Fiction-Writer-for-000-Word-Story_~021988496934014901546/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Fixed-price</span>
+                    </div>
+
+                    <div class="job-description">We are seeking a talented romance fiction writer to create a captivating 10,000-word story. The ideal candidate will have a strong unde…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Hindi-Language-Expert-for-Educational-Content-Review_~021988503795824628017/" target="_blank">Hindi Language Expert for Educational Content Review</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Hindi-Language-Expert-for-Educational-Content-Review_~021988503795824628017/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Fixed-price</span>
+                    </div>
+
+                    <div class="job-description">We are seeking a Hindi language expert to review educational content designed to teach spoken Hindi. The content includes Hindi grammar…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Experienced-Script-Writer-YouTube-Automation-Channel-Celebrity_~021988511088679454571/" target="_blank">Experienced Script Writer YouTube Automation Channel - Celebrity</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Experienced-Script-Writer-YouTube-Automation-Channel-Celebrity_~021988511088679454571/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Hourly</span>
+                    </div>
+
+                    <div class="job-description">Hey there! 
+
+We are a YouTube automation company and are looking for a talented, hard-working, and experienced screenwriter to join our…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Fumadocs-Product-Documentation-Enhancement_~021988475419314316427/" target="_blank">Fumadocs Product Documentation Enhancement</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Fumadocs-Product-Documentation-Enhancement_~021988475419314316427/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Fixed-price</span>
+                    </div>
+
+                    <div class="job-description">Seeking a skilled professional to update and enhance existing product documentation across 4 product pages in Fumadocs format. The goal…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Experienced-YouTube-Script-Writer-for-Celebrity-Niche-Channel_~021988487136341615755/" target="_blank">Experienced YouTube Script Writer for Celebrity Niche Channel</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Experienced-YouTube-Script-Writer-for-Celebrity-Niche-Channel_~021988487136341615755/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Fixed-price</span>
+                    </div>
+
+                    <div class="job-description">We are seeking a talented and experienced YouTube script writer with a passion for celebrity culture to join our team. The ideal candid…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Looking-for-website-writers-with-background-heat-treatment-and-manufacturing_~021988496552572356459/" target="_blank">Looking for website writers with background in  heat treatment and manufacturing</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Looking-for-website-writers-with-background-heat-treatment-and-manufacturing_~021988496552572356459/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Fixed-price</span>
+                    </div>
+
+                    <div class="job-description">Work description:
+We hope to add 1 native English-speaking writer to continuously produce 4-6 articles on induction heating technology…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Creative-YouTube-Scriptwriter-NEEDED-for-Popular-Clip-Channel-Longterm-Job_~021988504255050584369/" target="_blank">Creative YouTube Scriptwriter NEEDED for Popular Clip Channel! (Longterm Job)</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Creative-YouTube-Scriptwriter-NEEDED-for-Popular-Clip-Channel-Longterm-Job_~021988504255050584369/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Fixed-price</span>
+                    </div>
+
+                    <div class="job-description">Hello,
+
+We're a large digital publishing company looking for a scriptwriter to write short, fun commentary breaks for our clip-based vi…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Website-Copywriter-Needed-for-Engaging-Content_~021988507491425882417/" target="_blank">Website Copywriter Needed for Engaging Content</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Website-Copywriter-Needed-for-Engaging-Content_~021988507491425882417/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Fixed-price</span>
+                    </div>
+
+                    <div class="job-description">About Us:
+We are a professional umbrella manufacturer with over 20 years of experience, specializing in producing and customizing vario…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Script-Writers-For-Reddit-Stories_~021988474538074268811/" target="_blank">Script Writers For Reddit Stories</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Script-Writers-For-Reddit-Stories_~021988474538074268811/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Hourly</span>
+                    </div>
+
+                    <div class="job-description">Hiring Creative Scriptwriters for a Reddit Stories YouTube Channel!
+
+We are requiring unique scriptwriters who can generate ideas, writ…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Faceless-Youtube-Creative-Website-Content-Writer_~021989812674398581186/" target="_blank">Faceless Youtube Creative Website Content Writer</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Faceless-Youtube-Creative-Website-Content-Writer_~021989812674398581186/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Hourly</span>
+                    </div>
+
+                    <div class="job-description">We are seeking a versatile content writer with a flair for creative writing, copywriting, and scripting to develop engaging content for…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Writer-for-Fantasy-Tactical-RPG-Game-Dialogue-and-Story_~021989839596465746370/" target="_blank">Writer for Fantasy, Tactical RPG Game Dialogue and Story</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Writer-for-Fantasy-Tactical-RPG-Game-Dialogue-and-Story_~021989839596465746370/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Fixed-price</span>
+                    </div>
+
+                    <div class="job-description">We are seeking a talented writer to collaborate on the dialogue and story for our tactical RPG video game. The ideal candidate will hav…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Expert-SEO-Blog-Writer-for-Leading-Social-Media-Account-Recovery-Service_~021981391056063815329/" target="_blank">Expert SEO Blog Writer for a Leading Social Media Account Recovery Service</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Expert-SEO-Blog-Writer-for-Leading-Social-Media-Account-Recovery-Service_~021981391056063815329/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Hourly</span>
+                    </div>
+
+                    <div class="job-description">Socialrescue.com We are a leading digital service provider specializing in social media account recovery and online security support fo…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Private-Credit-Fund-Copywriter-for-Website-and-Marketing-Decks_~021989808260032033218/" target="_blank">Private Credit Fund Copywriter for Website and Marketing Decks</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Private-Credit-Fund-Copywriter-for-Website-and-Marketing-Decks_~021989808260032033218/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Hourly</span>
+                    </div>
+
+                    <div class="job-description">We are seeking a skilled copywriter with experience in private credit and direct lending to create compelling website content and marke…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/YouTube-Scriptwriter-Crime-Courtroom-Stories_~021989866394230518210/" target="_blank">YouTube Scriptwriter – Crime & Courtroom Stories</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/YouTube-Scriptwriter-Crime-Courtroom-Stories_~021989866394230518210/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Fixed-price</span>
+                    </div>
+
+                    <div class="job-description">YouTube Scriptwriter – Crime & Courtroom Stories (Long-Term Position)
+
+We are looking for a talented YouTube scriptwriter to join our t…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Expert-Editor-Needed-for-Content-Enhancement_~021989781234873070018/" target="_blank">Expert Editor Needed for Content Enhancement</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Expert-Editor-Needed-for-Content-Enhancement_~021989781234873070018/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Hourly</span>
+                    </div>
+
+                    <div class="job-description">We are seeking an expert editor to refine and enhance our content. The ideal candidate will have a keen eye for detail and a strong com…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Entertainment-News-Lifestyle-Content-Writer-For-Online-Publication_~021989844369417576193/" target="_blank">Entertainment News/Lifestyle Content Writer For Online Publication</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Entertainment-News-Lifestyle-Content-Writer-For-Online-Publication_~021989844369417576193/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Hourly</span>
+                    </div>
+
+                    <div class="job-description">Looking for someone to add to the team who can write several posts a week on trending entertainment news and editorials. Experience wit…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Article-writers-Script-writers-Youtube-Listicles_~021989851228723617537/" target="_blank">Article writers/Script writers - Youtube Listicles</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Article-writers-Script-writers-Youtube-Listicles_~021989851228723617537/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Fixed-price</span>
+                    </div>
+
+                    <div class="job-description">Looking for script writers or article writers who specialize in storytelling or have experience with YouTube listicles.
+
+Here are some…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Bengali-Content-Writer-Needed-Bangladesh-Market-Experienced_~021989858486098468609/" target="_blank">Bengali Content Writer Needed (Bangladesh Market Experienced)</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Bengali-Content-Writer-Needed-Bangladesh-Market-Experienced_~021989858486098468609/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Fixed-price</span>
+                    </div>
+
+                    <div class="job-description">We are looking for an experienced Real Estate Content Writer who has strong knowledge of the Bangladesh real estate market, local prope…</div>
+
+                </div>
+
+                <div class="job-card">
+                    <div class="job-header">
+                        <div class="job-title">
+
+                            <a href="https://www.upwork.com/freelance-jobs/apply/Instagram-Content-Poster_~021989907748895203073/" target="_blank">Instagram Content Poster</a>
+
+                        </div>
+
+                        <div class="cover-letter-badge pending">
+                            <span class="icon">⏳</span> No Cover Letter
+                        </div>
+
+                        <a href="https://www.upwork.com/freelance-jobs/apply/Instagram-Content-Poster_~021989907748895203073/" target="_blank" class="external-link">View Opportunity →</a>
+
+                    </div>
+                    <div class="job-meta">
+
+                        <span class="job-meta-item">📅 Fixed-price</span>
+                    </div>
+
+                    <div class="job-description">We are seeking a creative and reliable Instagram content poster to manage our daily Instagram posts. The role involves posting stories,…</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="timestamp">
+            <p>📊 Dashboard generated: November 19, 2025 at 20:56:29</p>
+            <p>🗃️ Database: data\jobs.db | Total Opportunities: 46</p>
+        </div>
+    </div>
+    
+    <script>
+        // Auto-refresh page every 5 minutes
+        setTimeout(function() {
+            location.reload();
+        }, 300000);
+        
+        // Cover Letter Modal Functions
+        function openCoverLetterModal(jobTitle, provider, coverLetterText) {
+            const modal = document.getElementById('coverLetterModal');
+            const modalTitle = document.getElementById('modalJobTitle');
+            const modalProvider = document.getElementById('modalProvider');
+            const modalContent = document.getElementById('coverLetterContent');
+            
+            modalTitle.textContent = jobTitle;
+            modalProvider.textContent = provider;
+            modalContent.textContent = coverLetterText.replace(/\\n/g, '\n');
+            
+            modal.style.display = 'block';
+        }
+        
+        function closeCoverLetterModal() {
+            document.getElementById('coverLetterModal').style.display = 'none';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('coverLetterModal');
+            if (event.target === modal) {
+                closeCoverLetterModal();
+            }
+        }
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeCoverLetterModal();
+            }
+        });
+    </script>
+    
+    <!-- Cover Letter Modal -->
+    <div id="coverLetterModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <div class="modal-title" id="modalJobTitle">Job Title</div>
+                    <div style="font-size: 0.9em; color: #666; margin-top: 4px;">
+                        Generated by: <span id="modalProvider">AI</span>
+                    </div>
+                </div>
+                <button class="close-modal" onclick="closeCoverLetterModal()">&times;</button>
+            </div>
+            <div class="cover-letter-content" id="coverLetterContent">
+                Cover letter content will appear here...
+            </div>
+        </div>
+    </div>
+</body>
+</html>

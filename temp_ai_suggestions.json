@@ -1,0 +1,10 @@
+{
+  "session_id": "unknown_20251120_061445",
+  "phase": "initial_response",
+  "confidence": 0.6467,
+  "model_used": "bert_phase_detector",
+  "created_at": "2025-11-24T08:28:56.431528",
+  "suggestion_type": "both",
+  "template_response": "Thank you for reaching out! I'm very interested. Could you tell me more about the project?",
+  "ai_response": "Please write the following information: языкок домущия родикий ублат проссии таксегу в калога грудене."
+}

@@ -1,0 +1,7 @@
+{
+  "api_key": null,
+  "model": "gpt-3.5-turbo",
+  "max_tokens": 1000,
+  "temperature": 0.7,
+  "system_prompt": "You are a professional cover letter writer. Generate compelling, personalized cover letters for job applications. Focus on highlighting relevant skills, experience, and enthusiasm for the role."
+}

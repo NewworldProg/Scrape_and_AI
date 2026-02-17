@@ -1,0 +1,269 @@
+﻿{
+    "name": "Chat AI Assistant Complete Workflow",
+    "nodes":         [
+        {
+            "id":  "1c4e5a9d-d5d5-5f8f-ac4c-1e8f9f0d3c2c",
+            "name":  "Schedule Trigger",
+            "type":  "n8n-nodes-base.scheduleTrigger",
+            "position":  [
+                             100,
+                             300
+                         ],
+            "parameters":  {
+                               "rule":  {
+                                            "interval":  [
+                                                             {
+                                                                 "hoursInterval":  6,
+                                                                 "field":  "hours"
+                                                             }
+                                                         ]
+                                        }
+                           },
+            "typeVersion":  1.1
+        },
+        {
+            "id":  "1dafcafb-chat-chrome-status",
+            "name":  "Check Chrome Chat Status",
+            "type":  "n8n-nodes-base.executeCommand",
+            "typeVersion":  1,
+            "__comment":  "======== node for checking chrome chat status ==============",
+            "parameters":  {
+                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_check_chrome_chat.ps1\""
+                           },
+            "works":  "executes a powershell script to check chrome chat status and returns boolean to n8n",
+            "position":  [
+                             300,
+                             300
+                         ]
+        },
+        {
+            "id":  "2eafcafb-chat-chrome-if",
+            "name":  "IF Chrome Chat Ready",
+            "type":  "n8n-nodes-base.if",
+            "typeVersion":  1,
+            "__comment":  "======== node for redirection based on chrome chat status ==============",
+            "parameters":  {
+                               "conditions":  {
+                                                  "number":  [
+    
+                                                             ],
+                                                  "dateTime":  [
+    
+                                                               ],
+                                                  "boolean":  [
+    
+                                                              ],
+                                                  "string":  [
+                                                                 {
+                                                                     "value1":  "={{JSON.parse($node[\"Check Chrome Chat Status\"].json[\"stdout\"]).chrome_ready}}",
+                                                                     "operation":  "equal",
+                                                                     "value2":  "true"
+                                                                 }
+                                                             ]
+                                              }
+                           },
+            "works":  "takes output from check chrome chat status if value is equal to true passes it",
+            "position":  [
+                             540,
+                             300
+                         ]
+        },
+        {
+            "id":  "3fafcafb-chat-start-chrome",
+            "name":  "Start Chrome Chat",
+            "type":  "n8n-nodes-base.executeCommand",
+            "typeVersion":  1,
+            "__comment":  "======== node for starting chrome chat ==============",
+            "parameters":  {
+                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_start_chrome_chat_simple.ps1\""
+                           },
+            "works":  "executes a powershell script to start chrome for chat",
+            "position":  [
+                             540,
+                             500
+                         ]
+        },
+        {
+            "id":  "3gafcafb-chat-wait-startup",
+            "name":  "Wait for Chrome Chat Startup",
+            "type":  "n8n-nodes-base.wait",
+            "typeVersion":  1,
+            "__comment":  "======== node for waiting for chrome chat startup ==============",
+            "parameters":  {
+                               "unit":  "seconds",
+                               "amount":  6
+                           },
+            "works":  "waits for a specified amount of time than proceeds to next node",
+            "position":  [
+                             540,
+                             650
+                         ]
+        },
+        {
+            "id":  "4gafcafb-chat-navigation",
+            "name":  "Wait for Chat Navigation",
+            "type":  "n8n-nodes-base.wait",
+            "typeVersion":  1,
+            "__comment":  "======== node for waiting for chat navigation ==============",
+            "parameters":  {
+                               "unit":  "seconds",
+                               "amount":  45
+                           },
+            "works":  "waits for user to navigate to chat page",
+            "position":  [
+                             740,
+                             300
+                         ]
+        },
+        {
+            "id":  "5hafcafb-chat-scraper",
+            "name":  "Run Chat Scraper",
+            "type":  "n8n-nodes-base.executeCommand",
+            "typeVersion":  1,
+            "__comment":  "======== node for running chat scraper ==============",
+            "parameters":  {
+                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_chat_scraper.ps1\""
+                           },
+            "works":  "executes a powershell script to run chat scraper",
+            "position":  [
+                             940,
+                             300
+                         ]
+        },
+        {
+            "id":  "6hafcafb-chat-parser",
+            "name":  "Parse Chat Messages",
+            "type":  "n8n-nodes-base.executeCommand",
+            "typeVersion":  1,
+            "__comment":  "======== node for parsing chat messages ==============",
+            "parameters":  {
+                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_chat_parser.ps1\""
+                           },
+            "works":  "executes a powershell script to parse chat messages from HTML",
+            "position":  [
+                             1140,
+                             300
+                         ]
+        },
+        {
+            "id":  "7hafcafb-chat-cleanup",
+            "name":  "Cleanup Chat Database",
+            "type":  "n8n-nodes-base.executeCommand",
+            "typeVersion":  1,
+            "__comment":  "======== node for cleaning up duplicate chat sessions ==============",
+            "parameters":  {
+                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_cleanup_chat_database.ps1\""
+                           },
+            "works":  "executes a powershell script to cleanup duplicate chat sessions from database",
+            "position":  [
+                             1240,
+                             300
+                         ]
+        },
+        {
+            "parameters":  {
+                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_detect_phase_standalone.ps1\""
+                           },
+            "id":  "detect-phase-bert",
+            "type":  "n8n-nodes-base.executeCommand",
+            "typeVersion":  1,
+            "phases":  [
+                           "initial_response",
+                           "ask_details",
+                           "knowledge_check",
+                           "language_confirm",
+                           "rate_negotiation",
+                           "deadline_samples",
+                           "structure_clarification",
+                           "contract_acceptance"
+                       ],
+            "name":  "Detect Phase (BERT AI)",
+            "__comment":  "======== STEP 1: BERT AI PHASE DETECTION ============",
+            "position":  [
+                             1440,
+                             300
+                         ],
+            "works":  "Uses BERT AI model to detect conversation phase only"
+        },
+        {
+            "parameters":  {
+                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_generate_response.ps1\" -Mode both"
+                           },
+            "id":  "generate-response",
+            "current_mode":  "both",
+            "how_to_change_mode":  "Edit command parameter: change \u0027-Mode both\u0027 to \u0027-Mode template/ai\u0027 for single mode",
+            "typeVersion":  1,
+            "modes":  {
+                          "ai":  "GPT-2 generated response based on detected phase (1 option)",
+                          "template":  "Fast pre-written responses for detected phase (3 options)",
+                          "both":  "Template + AI response for comparison (2 responses)"
+                      },
+            "type":  "n8n-nodes-base.executeCommand",
+            "name":  "Generate Response (Template + AI)",
+            "__comment":  "======== STEP 2: RESPONSE GENERATION ============",
+            "position":  [
+                             1640,
+                             300
+                         ],
+            "works":  "Generates responses based on detected phase from previous step"
+        },
+        {
+            "id":  "chat-dashboard",
+            "name":  "Generate and Open Chat Dashboard",
+            "type":  "n8n-nodes-base.executeCommand",
+            "typeVersion":  1,
+            "__comment":  "======== node for generating chat dashboard ==============",
+            "parameters":  {
+                               "workingDirectory":  "E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main",
+                               "command":  "powershell -ExecutionPolicy Bypass -File \"E:\\\\Repoi\\\\Sa gita\\\\Scrape_and_AI-main\\\\run_scripts\\\\run_generate_and_open_chat_dashboard.ps1\""
+                           },
+            "works":  "creates interactive HTML dashboard with chat and AI responses and opens in browser",
+            "position":  [
+                             1840,
+                             300
+                         ]
+        }
+    ],
+    "connections": {
+        "Schedule Trigger": { "main": [[ { "node": "Check Chrome Chat Status", "type": "main", "index": 0 } ]] },
+        "Check Chrome Chat Status": { "main": [[ { "node": "IF Chrome Chat Ready", "type": "main", "index": 0 } ]] },
+        "IF Chrome Chat Ready": { "main": [[ { "node": "Wait for Chat Navigation", "type": "main", "index": 0 } ], [ { "node": "Start Chrome Chat", "type": "main", "index": 0 } ]] },
+        "Start Chrome Chat": { "main": [[ { "node": "Wait for Chrome Chat Startup", "type": "main", "index": 0 } ]] },
+        "Wait for Chrome Chat Startup": { "main": [[ { "node": "Wait for Chat Navigation", "type": "main", "index": 0 } ]] },
+        "Wait for Chat Navigation": { "main": [[ { "node": "Run Chat Scraper", "type": "main", "index": 0 } ]] },
+        "Run Chat Scraper": { "main": [[ { "node": "Parse Chat Messages", "type": "main", "index": 0 } ]] },
+        "Parse Chat Messages": { "main": [[ { "node": "Cleanup Chat Database", "type": "main", "index": 0 } ]] },
+        "Cleanup Chat Database": { "main": [[ { "node": "Detect Phase (BERT AI)", "type": "main", "index": 0 } ]] },
+        "Detect Phase (BERT AI)": { "main": [[ { "node": "Generate Response (Template + AI)", "type": "main", "index": 0 } ]] },
+        "Generate Response (Template + AI)": { "main": [[ { "node": "Generate and Open Chat Dashboard", "type": "main", "index": 0 } ]] }
+    },
+    "createdAt": "2025-10-31T00:00:00.000Z",
+    "updatedAt": "2025-11-03T21:10:00.000Z",
+    "settings": {},
+    "staticData": {},
+    "meta": {
+        "templateCredsSetupCompleted": true,
+        "version": "3.0",
+        "features": [
+            "ML Phase Detection (BERT, 100% accuracy)",
+            "8 Conversation Phases",
+            "Knowledge Check Detection (92% confidence)",
+            "4 Response Modes (template/hybrid/pure/summary)",
+            "Template Mode: 5 fast options (default)",
+            "Hybrid Mode: AI-enhanced personalization",
+            "Pure Mode: Fully AI-generated",
+            "Summary Mode: Template + context summary"
+        ]
+    },
+    "pinData": {},
+    "versionId": "chat-ml-v3",
+    "triggerCount": 0,
+    "tags": [ "chat", "ai", "ml-powered", "phase-detection", "working" ]
+}

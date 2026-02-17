@@ -1,0 +1,63 @@
+# 🤖 Chat AI Assistant - Git Ignore Rules
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.env
+
+# Database files
+*.db
+data/chat_data.db
+data/upwork_data.db
+data/upwork_jobs.db
+
+# Chrome profile data
+chrome_profile/
+chrome_profile_chat/
+
+# Cookies and sensitive data
+cookies/
+
+# Generated files and outputs
+data/browser_scrape_*.html
+data/chat_raw_*.html
+data/chat_result_*.json
+data/dashboard_*.html
+data/data_*/
+
+# Temporary files
+temp_*.json
+*.tmp
+*.log
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Node modules
+node_modules/
+npm-debug.log*
+
+# n8n local runtime data
+.n8n/
+
+# AI models (too large for git)
+trained_models/
+*.bin
+*.safetensors
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Keep essential examples
+!temp_ai_suggestions.json

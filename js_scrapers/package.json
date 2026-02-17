@@ -1,0 +1,21 @@
+{
+  "name": "upwork-browser-connect-scraper",
+  "version": "1.0.0",
+  "main": "browser_connect_puppeteer.js",
+  "scripts": {
+    "start": "node browser_connect_puppeteer.js",
+    "test": "echo \"Run: node browser_connect_puppeteer.js\" && exit 1"
+  },
+  "keywords": [
+    "upwork",
+    "scraper",
+    "puppeteer",
+    "browser-connect"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": "Upwork scraper that connects to existing Chrome browser",
+  "dependencies": {
+    "puppeteer-core": "^24.25.0"
+  }
+}

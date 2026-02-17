@@ -1,0 +1,117 @@
+﻿{
+    "name": "AI Cover Letter Generator - Scheduled",
+    "nodes": [
+        {
+            "__comment": "======== node for triggering workflow every 5 minutes ==============",
+            "works": "interval field takes arguments like minutes, hours, days etc.",
+            "parameters": {
+                "rule": {
+                    "interval": [
+                        {
+                            "field": "minutes",
+                            "minutesInterval": 5
+                        }
+                    ]
+                }
+            },
+            "id": "ai-trigger-1",
+            "name": "Every 5 Minutes",
+            "type": "n8n-nodes-base.scheduleTrigger",
+            "typeVersion": 1.1,
+            "position": [
+                140,
+                300
+            ]
+        },
+        {
+            "__comment": "======== node for getting latest job without cover letter ==============",
+            "works": "gets latest job without cover letter using UpworkDatabase class",
+            "parameters": {
+                "command": "powershell -ExecutionPolicy Bypass -File \"\\run_scripts\\run_get_latest_job_without_cover_letter.ps1\"",
+                "workingDirectory": ""
+            },
+            "id": "get-latest-job-1",
+            "name": "Get Latest Job Without Cover Letter",
+            "type": "n8n-nodes-base.executeCommand",
+            "typeVersion": 1,
+            "position": [
+                340,
+                300
+            ]
+        },
+        {
+            "__comment": "======== node for calling trained local AI model to generat cover letter ==============",
+            "works": "goes in folder of program and runs the PowerShell script to generate cover letter using local AI model",
+            "parameters": {
+                "command": "powershell -ExecutionPolicy Bypass -File \"\\run_scripts\\run_smart_cover_letter.ps1\"",
+                "workingDirectory": ""
+            },
+            "id": "ai-generator-1",
+            "name": "Smart AI Cover Letter",
+            "type": "n8n-nodes-base.executeCommand",
+            "typeVersion": 1,
+            "position": [
+                540,
+                300
+            ]
+        },
+        {
+            "__comment": "======== node for refreshing dashboard after cover letter generation ==============",
+            "parameters": {
+                "command": "powershell -ExecutionPolicy Bypass -File \"\\run_scripts\\run_generate_and_open_dashboard.ps1\"",
+                "workingDirectory": ""
+            },
+            "id": "ai-dashboard-1",
+            "name": "Refresh Dashboard",
+            "type": "n8n-nodes-base.executeCommand",
+            "typeVersion": 1,
+            "position": [
+                740,
+                300
+            ]
+        }
+    ],
+    "connections": {
+        "Every 5 Minutes": {
+            "main": [
+                [
+                    {
+                        "node": "Get Latest Job Without Cover Letter",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Get Latest Job Without Cover Letter": {
+            "main": [
+                [
+                    {
+                        "node": "Smart AI Cover Letter",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Smart AI Cover Letter": {
+            "main": [
+                [
+                    {
+                        "node": "Refresh Dashboard",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "pinData": {},
+    "settings": {},
+    "staticData": {},
+    "tags": [],
+    "triggerCount": 0,
+    "updatedAt": "2025-10-27T19:20:00.000Z",
+    "versionId": "001"
+}
+

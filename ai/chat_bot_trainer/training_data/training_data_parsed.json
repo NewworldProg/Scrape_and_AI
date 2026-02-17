@@ -1,0 +1,162 @@
+[
+  {
+    "id": 1,
+    "exchanges": [
+      {
+        "speaker": "freelancer",
+        "message": "Hello!"
+      },
+      {
+        "speaker": "client",
+        "message": "Hi! Are you available to help us with some writing tasks for a technology-focused blog?"
+      },
+      {
+        "speaker": "freelancer",
+        "message": "Good morning! Yes, I'm available. Could you tell me a bit more about what kind of content you need?"
+      },
+      {
+        "speaker": "client",
+        "message": "We publish articles about software tools, tutorials, and product comparisons. Before we continue, could you share your rate per 100 words and how many 800 - 1200 word articles you can complete per day?"
+      },
+      {
+        "speaker": "freelancer",
+        "message": "Sounds good! My usual rate is $0.06 per 100 words. I can complete around 2 articles per day depending on complexity."
+      }
+    ],
+    "formatted_training_text": "<|startoftext|>\n<|freelancer|> Hello!\n<|client|> Hi! Are you available to help us with some writing tasks for a technology-focused blog?\n<|freelancer|> Good morning! Yes, I'm available. Could you tell me a bit more about what kind of content you need?\n<|client|> We publish articles about software tools, tutorials, and product comparisons. Before we continue, could you share your rate per 100 words and how many 800 - 1200 word articles you can complete per day?\n<|freelancer|> Sounds good! My usual rate is $0.06 per 100 words. I can complete around 2 articles per day depending on complexity.\n<|endoftext|>",
+    "exchange_count": 5,
+    "speakers": [
+      "freelancer",
+      "client"
+    ],
+    "text_length": 694
+  },
+  {
+    "id": 2,
+    "exchanges": [
+      {
+        "speaker": "client",
+        "message": "We need a writer for lifestyle and self-improvement topics. Are you open to ongoing weekly work?"
+      },
+      {
+        "speaker": "freelancer",
+        "message": "Yes, definitely! What kind of articles do you typically need?"
+      },
+      {
+        "speaker": "client",
+        "message": "Mostly articles about productivity, routines, mental well-being, and general lifestyle advice. Could you share your per-word rate?"
+      },
+      {
+        "speaker": "freelancer",
+        "message": "My usual rate is $0.05 per word. Do you require SEO optimization as well?"
+      },
+      {
+        "speaker": "client",
+        "message": "Basic SEO only. We normally need around 5 articles per week. Would that work for you?"
+      }
+    ],
+    "formatted_training_text": "<|startoftext|>\n<|client|> We need a writer for lifestyle and self-improvement topics. Are you open to ongoing weekly work?\n<|freelancer|> Yes, definitely! What kind of articles do you typically need?\n<|client|> Mostly articles about productivity, routines, mental well-being, and general lifestyle advice. Could you share your per-word rate?\n<|freelancer|> My usual rate is $0.05 per word. Do you require SEO optimization as well?\n<|client|> Basic SEO only. We normally need around 5 articles per week. Would that work for you?\n<|endoftext|>",
+    "exchange_count": 5,
+    "speakers": [
+      "client",
+      "freelancer"
+    ],
+    "text_length": 642
+  },
+  {
+    "id": 3,
+    "exchanges": [
+      {
+        "speaker": "client",
+        "message": "We need a writer to produce simple educational articles for beginners. Topics include basic science concepts and how-to guides."
+      },
+      {
+        "speaker": "freelancer",
+        "message": "Great! Do you prefer a casual tone or something more academic?"
+      },
+      {
+        "speaker": "client",
+        "message": "Casual and friendly. We want the content to feel easy to read."
+      },
+      {
+        "speaker": "freelancer",
+        "message": "Perfect. Do you have a sample article I can use as a reference for tone?"
+      },
+      {
+        "speaker": "client",
+        "message": "Yes, I’ll send a few examples. Word count is usually around 600–1000 words."
+      }
+    ],
+    "formatted_training_text": "<|startoftext|>\n<|client|> We need a writer to produce simple educational articles for beginners. Topics include basic science concepts and how-to guides.\n<|freelancer|> Great! Do you prefer a casual tone or something more academic?\n<|client|> Casual and friendly. We want the content to feel easy to read.\n<|freelancer|> Perfect. Do you have a sample article I can use as a reference for tone?\n<|client|> Yes, I’ll send a few examples. Word count is usually around 600–1000 words.\n<|endoftext|>",
+    "exchange_count": 5,
+    "speakers": [
+      "client",
+      "freelancer"
+    ],
+    "text_length": 581
+  },
+  {
+    "id": 4,
+    "exchanges": [
+      {
+        "speaker": "client",
+        "message": "I’ve shared a structure template with headings and basic formatting guidelines."
+      },
+      {
+        "speaker": "freelancer",
+        "message": "I reviewed it. Do you want me to follow it strictly or can I propose improvements?"
+      },
+      {
+        "speaker": "client",
+        "message": "Feel free to improve things as long as the article stays clear and easy to follow."
+      },
+      {
+        "speaker": "freelancer",
+        "message": "Great. Do you provide keywords or should I research them?"
+      },
+      {
+        "speaker": "client",
+        "message": "We provide keywords but you can suggest better ones if you find them."
+      }
+    ],
+    "formatted_training_text": "<|startoftext|>\n<|client|> I’ve shared a structure template with headings and basic formatting guidelines.\n<|freelancer|> I reviewed it. Do you want me to follow it strictly or can I propose improvements?\n<|client|> Feel free to improve things as long as the article stays clear and easy to follow.\n<|freelancer|> Great. Do you provide keywords or should I research them?\n<|client|> We provide keywords but you can suggest better ones if you find them.\n<|endoftext|>",
+    "exchange_count": 5,
+    "speakers": [
+      "client",
+      "freelancer"
+    ],
+    "text_length": 489
+  },
+  {
+    "id": 5,
+    "exchanges": [
+      {
+        "speaker": "client",
+        "message": "In the document you’ll also find instructions about headings and internal linking."
+      },
+      {
+        "speaker": "freelancer",
+        "message": "Got it. Do you require a specific number of internal links?"
+      },
+      {
+        "speaker": "client",
+        "message": "No fixed number — add them only where relevant."
+      },
+      {
+        "speaker": "freelancer",
+        "message": "Great. What tools do you use for readability or originality checks?"
+      },
+      {
+        "speaker": "client",
+        "message": "Mostly Grammarly and a simple plagiarism checker."
+      }
+    ],
+    "formatted_training_text": "<|startoftext|>\n<|client|> In the document you’ll also find instructions about headings and internal linking.\n<|freelancer|> Got it. Do you require a specific number of internal links?\n<|client|> No fixed number — add them only where relevant.\n<|freelancer|> Great. What tools do you use for readability or originality checks?\n<|client|> Mostly Grammarly and a simple plagiarism checker.\n<|endoftext|>",
+    "exchange_count": 5,
+    "speakers": [
+      "client",
+      "freelancer"
+    ],
+    "text_length": 516
+  }
+]
