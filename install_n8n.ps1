@@ -93,29 +93,9 @@ else {
     Write-Host "   🎯 Chrome verification passed" -ForegroundColor Green
 }
 
-# Install N8N globally if not present (pin to compatible version)
+# Install N8N locally in project (pin to compatible version)
 $desiredN8nVersion = "1.46.0"
-try {
-    $n8nVersion = (n8n --version).Trim()
-    if ($n8nVersion -eq $desiredN8nVersion) {
-        Write-Host "   N8N already installed: $n8nVersion" -ForegroundColor Green
-    }
-    else {
-        Write-Host "   N8N version mismatch (found $n8nVersion, need $desiredN8nVersion)" -ForegroundColor Yellow
-        Write-Host "   Reinstalling N8N..." -ForegroundColor Yellow
-        if (-not $DryRun) {
-            npm install -g "n8n@$desiredN8nVersion"
-            Write-Host "   N8N installed successfully" -ForegroundColor Green
-        }
-    }
-}
-catch {
-    Write-Host "   Installing N8N globally..." -ForegroundColor Yellow
-    if (-not $DryRun) {
-        npm install -g "n8n@$desiredN8nVersion"
-        Write-Host "   N8N installed successfully" -ForegroundColor Green
-    }
-}
+Write-Host "   Ensuring local N8N version: $desiredN8nVersion" -ForegroundColor Yellow
 
 # Check if package.json exists by joining dir path and package.json if not makes one
 # install local dependencies inside package.json if not in DryRun mode
@@ -125,7 +105,9 @@ if (Test-Path $packageJsonPath) {
     if (-not $DryRun) {
         Set-Location $newBasePath
         npm install
+        npm install --save-exact "n8n@$desiredN8nVersion"
         Write-Host "   Local dependencies installed" -ForegroundColor Green
+        Write-Host "   Local N8N installed: $desiredN8nVersion" -ForegroundColor Green
     }
 }
 else {
@@ -152,6 +134,7 @@ else {
             author          = "Your Name"
             license         = "MIT"
             dependencies    = @{
+                "n8n"                = "$desiredN8nVersion"
                 "puppeteer-core"     = "^21.0.0"
                 "puppeteer"          = "^21.0.0"
                 "selenium-webdriver" = "^4.15.0"
@@ -260,8 +243,18 @@ Write-Host ""
 # Set N8N data directory to current project
 `$env:N8N_USER_FOLDER = "$newBasePath\.n8n"
 
-# Start N8N
-n8n start
+# Start local project N8N
+`$localN8nCmd = Join-Path `$PSScriptRoot "node_modules\.bin\n8n.cmd"
+if (Test-Path `$localN8nCmd) {
+    & `$localN8nCmd start
+}
+elseif (Get-Command npx -ErrorAction SilentlyContinue) {
+    npx --no-install n8n start
+}
+else {
+    Write-Error "Local n8n nije pronađen. Pokreni install_n8n.ps1 da instaliraš project-local n8n."
+    exit 1
+}
 "@
         $startN8nContent | Out-File -FilePath "start_n8n.ps1" -Encoding UTF8
         
@@ -333,7 +326,7 @@ Write-Host "`n Installation Complete!" -ForegroundColor Cyan
 Write-Host ""
 Write-Host " Summary:" -ForegroundColor White
 Write-Host " Node.js dependencies installed" -ForegroundColor Gray
-Write-Host " N8N installed and configured" -ForegroundColor Gray
+Write-Host " N8N installed locally (project-only)" -ForegroundColor Gray
 if (-not $WorkflowsOnly) {
     Write-Host " Python virtual environment ready" -ForegroundColor Gray
     Write-Host " Helper scripts created" -ForegroundColor Gray
